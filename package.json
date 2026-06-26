@@ -1,5 +1,24 @@
 {
   "dependencies": {
     "mongodb": "^7.4.0"
-  }
+  },
+  "name": "basedatos2tp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "estructuraBD.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Feliluismy/Equipo-sesi-n-separada-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Feliluismy/Equipo-sesi-n-separada-2/issues"
+  },
+  "homepage": "https://github.com/Feliluismy/Equipo-sesi-n-separada-2#readme"
 }

@@ -27,3 +27,6 @@ db.transferencias.insertOne(
    })
 db.clubes.find()
 db.transferencias.find()
+
+// Ranking de jugadores por edad
+    
