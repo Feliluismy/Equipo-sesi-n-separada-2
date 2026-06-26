@@ -25,8 +25,64 @@ db.transferencias.insertOne(
     IdclubDestino: 2,      
     monto: 50000000
    })
+
+db.transferencias.insertMany(
+   [
+   {_id: 2,
+    jugadorId: 3,          
+    IdclubOrigen: 1,       
+    IdclubDestino: 4,      
+    monto: 180000000
+   },
+   {_id: 3,
+    jugadorId: 5,          
+    IdclubOrigen: 4,       
+    IdclubDestino: 3,      
+    monto: 90000000
+   },
+   {_id: 4,
+    jugadorId: 4,          
+    IdclubOrigen: 4,       
+    IdclubDestino: 1,      
+    monto: 280000000
+   }]
+)
 db.clubes.find()
 db.transferencias.find()
 
-// Ranking de jugadores por edad
-    
+
+db.transferencias.aggregate([
+  {$sort: { monto: -1 }},
+  {$limit: 1 },
+  {$lookup: {
+      from: "jugadores",
+      localField: "jugadorId",
+      foreignField: "_id",
+      as: "datos_jugador"
+    }
+  },
+  { 
+    $project: {
+      _id: 0,
+      nombre_jugador: "$datos_jugador.nombre",
+      monto_transferencia: "$monto",
+      equipo_origen: "$IdclubOrigen",
+      equipo_destino: "$IdclubDestino"
+    }
+  }
+])
+
+
+const totalPorClub = await db.collection("transferencias").aggregate([
+      { $group: { _id: "$IdclubDestino", totalGastado: { $sum: "$monto" } } },
+      { $lookup: {
+          from: "clubes",
+          localField: "_id",
+          foreignField: "_id",
+          as: "clubDestino"
+      }},
+      { $unwind: "$clubDestino" }, 
+      { $project: { totalGastado: 1, "clubDestino.nombre": 1 } }
+    ]).toArray();
+    console.log("Total gastado por club:", JSON.stringify(totalPorClub, null, 2));
+    console.log();

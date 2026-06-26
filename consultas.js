@@ -20,6 +20,36 @@ async function main() {
       { $project: { _id:0, nombre: 1, edad: 1 } }, 
       {$limit:3}
     ]).toArray();
+
+    const totalPorClub = await db.collection("transferencias").aggregate([
+      { $group: { _id: "$IdclubDestino", totalGastado: { $sum: "$monto" } } },
+      { $lookup: {
+          from: "clubes",
+          localField: "_id",
+          foreignField: "_id",
+          as: "clubDestino"
+      }},
+      { $unwind: "$clubDestino" }, 
+      { $project: { totalGastado: 1, "clubDestino.nombre": 1 } }
+    ]).toArray();
+    console.log("Total gastado por club:", JSON.stringify(totalPorClub, null, 2));
+    console.log();
+    const rankingEdad = await db.transferencias.aggregate([
+        {$sort: { monto: -1 }},
+        {$limit: 1 },
+        {$lookup: {
+            from: "jugadores",
+            localField: "jugadorId",
+            foreignField: "_id",
+            as: "datos_jugador"}},
+        {$project: {
+            _id: 0,
+            nombre_jugador: "$datos_jugador.nombre",
+            monto_transferencia: "$monto",
+            equipo_origen: "$IdclubOrigen",
+            equipo_destino: "$IdclubDestino"
+        }}])
+
     console.log(" Ranking por edad:", rankingEdad);
 
 
