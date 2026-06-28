@@ -1,0 +1,15 @@
+⟩ Parte 3: SQL Vs. No-SQL:
+SQL y No-SQL son simplemente dos modelos de bases de datos distintos, las dos con sus características positivas y negativas, dependiendo del proyecto.
+
+> Estructura:
+La principal diferencia se ve en que las bases de datos relacionales tienen una estructura para el almacenamiento de su información *rígida y predefinida,* basada en filas y columnas.
+Cosa que solo es una ventaja en proyectos donde, desde el inicio se sabe con exactitud que tipo de información será almacenada, cuales serán sus relaciones y teniendo la certeza de que esta estructura no será alterada de forma significativa en el futuro.
+Por ejemplo, en sistemas financieros y degestión de empresas.
+
+En cambio, las bases de datos no relacionales son *flexibles* y permiten al desarrollador ir adaptando la base a medida que el proyecto se desarrolla.
+
+> Escalabilidad:
+El modelo SQL tiende a depender de la *escalabilidad vertical,* ya que la forma en que funciona dificulta el uso de múltiples servidores. Mientras que el modelo No-SQL tiende a tener una mejor escalabilidad en general, orientada a la horizontal.
+
+> Lenguaje:
+El modelo relacional utiliza estrictamente el lenguaje de consultas SQL, mientras que el no relacional hace uso de métodos como "findAll" o "", dependiendo del lenguaje usado.
