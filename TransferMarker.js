@@ -13,7 +13,7 @@ async function main() {
     // Mostrar todos los jugadores
     const jugadores = await db.collection("jugadores").find().toArray();
     console.log("Lista de jugadores:");
-    console.log(jugadores);
+    console.log("Listado de Jugadores",jugadores);
 
     const rankingEdad = await db.collection("jugadores").aggregate([
       { $sort: { edad: -1 } },
@@ -34,23 +34,48 @@ async function main() {
     ]).toArray();
     console.log("Total gastado por club:", JSON.stringify(totalPorClub, null, 2));
     console.log();
-    const rankingEdad = await db.transferencias.aggregate([
-        {$sort: { monto: -1 }},
-        {$limit: 1 },
-        {$lookup: {
-            from: "jugadores",
-            localField: "jugadorId",
-            foreignField: "_id",
-            as: "datos_jugador"}},
-        {$project: {
-            _id: 0,
-            nombre_jugador: "$datos_jugador.nombre",
-            monto_transferencia: "$monto",
-            equipo_origen: "$IdclubOrigen",
-            equipo_destino: "$IdclubDestino"
-        }}])
 
-    console.log(" Ranking por edad:", rankingEdad);
+    const jugadorMasCaro = await db.collection("transferencias").aggregate([
+      { $sort: { monto: -1 } },
+      { $limit: 1 },
+      {
+          $lookup: {
+              from: "jugadores",
+              localField: "jugadorId",
+              foreignField: "_id",
+              as: "datos_jugador"
+          }
+      },
+      {
+          $lookup: {
+              from: "clubes",
+              localField: "IdclubOrigen",
+              foreignField: "_id",
+              as: "origen"
+          }
+      },
+      {$lookup: {
+              from: "clubes",
+              localField: "IdclubDestino",
+              foreignField: "_id",
+              as: "destino"
+          }
+      },
+      {$unwind: "$origen"},
+      {$unwind: "$destino"},
+      {
+          $project: {
+              _id: 0,
+              nombre_jugador: "$datos_jugador.nombre",
+              monto_transferencia: "$monto",
+              equipo_origen: "$origen.nombre",
+              equipo_destino: "$destino.nombre"
+          }
+      }
+  ])
+  .toArray();
+
+  console.log("Jugador mas caros:", jugadorMasCaro);
 
 
   } catch (err) {
