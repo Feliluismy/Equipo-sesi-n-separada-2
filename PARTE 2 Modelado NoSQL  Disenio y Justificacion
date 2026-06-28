@@ -1,0 +1,20 @@
+●Entidades: jugadores, clubes, y transferencias
+    Relaciones: 
+        - jugadores y transferencias:
+            Transferencias guarda una id de cada jugador, esta id se usa para llamar de la coleccion al
+            jugador especifico que se nombra.
+        - clubes y transferencias: 
+            Transferencias guarda tanto el club de origen y el destino al que va, via id, para poder llamar 
+            los nombres de cada uno
+● No utilizamos embedding porque los jugadores y los clubes son entidades independientes de las
+transferencias. Al mantenerlos en colecciones separadas evitamos duplicar su información en cada
+transferencia y podemos reutilizar los mismos documentos mediante referencias (_id) cuando sea necesario
+
+● Si lo usamos, devido a que usamos un elemento especifico de una colecciones y dos de la otra,
+esto hace que solo lo llamemos una vez por cada uno, pq sino estariamos haciendo una consulta de mas.
+
+● Si se hubiera modelado de manera relacional, se ganaría una mayor integridad de los datos mediante
+claves foráneas y relaciones entre tablas. Sin embargo, se dependería de JOIN para obtener la
+información de jugadores, clubes y transferencias. En nuestro modelo NoSQL
+utilizamos referencias (_id) y $lookup solo cuando es necesario relacionar las colecciones,
+manteniendo una estructura más flexible.
