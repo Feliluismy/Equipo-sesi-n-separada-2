@@ -1,0 +1,16 @@
+{
+"jugadores":
+{ "_id": 1, "nombre": "Lionel Messi", "edad": 36, "posicion": "Delantero", "nacionalidad": "Argentina", "clubId": 2 }
+,
+
+"clubes": 
+    {"_id": 1, "nombre": "Paris Saint-Germain", "pais": "Francia", "liga": "Ligue 1" }
+,
+
+"transferencias": {"_id": 1,
+    "jugadorId": 1,
+    "IdclubOrigen": 1,
+    "IdclubDestino": 2,
+    "monto": 50000000
+   }
+}
