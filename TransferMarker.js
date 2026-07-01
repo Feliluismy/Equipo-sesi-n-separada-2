@@ -21,6 +21,8 @@ async function main() {
       {$limit:3}
     ]).toArray();
 
+    console.log("Ranking por edad:", rankingEdad);
+
     const totalPorClub = await db.collection("transferencias").aggregate([
       { $group: { _id: "$IdclubDestino", totalGastado: { $sum: "$monto" } } },
       { $lookup: {
